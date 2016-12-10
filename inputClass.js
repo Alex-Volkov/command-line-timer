@@ -28,6 +28,17 @@ class InputProcess extends Events{
 			return this.emit('runTask', {task:task, time: time})
 		}
 		/**
+		 * we need to remove task
+		 */
+		if(inputArr.indexOf('--remove-task') > -1){
+			let taskIndex = inputArr.indexOf('--remove-task');
+			let task = null;
+			if(taskIndex > -1 && !!inputArr[taskIndex + 1]){
+				task = inputArr[taskIndex + 1];
+			}
+			return this.emit('removeTask', {task:task})
+		}
+		/**
 		 * only time is specified
 		 */
 		if(!!time){

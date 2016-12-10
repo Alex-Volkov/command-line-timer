@@ -38,6 +38,11 @@ class Mediator {
 			this.timer = new TimerClass(data);
 			this.timerHandlers();
 		});
+
+		this.input.on('removeTask', (data) => {
+			this.db.removeByTask(data.task)
+				.then(() => console.log(`task *${data.task}* removed`))
+		});
 	}
 
 	timerHandlers() {

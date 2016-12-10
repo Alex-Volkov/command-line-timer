@@ -14,6 +14,8 @@
  
  ```timer --get-tasks``` will show list of tasks from DB like this
   ```[ 'test', 'test task', 'another task' ]```
+ 
+ ```timer --remove-task 'test task'``` removes all the data from DB with a `task` named `test task` 
   
  When timer is running it can be paused and unpaused with a `spacebar`
  

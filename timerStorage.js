@@ -86,6 +86,15 @@ class TimerStorage extends EventEmitter {
 	removeByType(type) {
 		return this.db.exec(`delete from sessions where type = '${type}'`);
 	}
+
+	/**
+	 * remove tasks by task name
+	 * @param task
+	 * @returns {Array|{index: number, input: string}|*}
+	 */
+	removeByTask(task){
+		return this.db.exec(`delete from sessions where task = '${task}'`);
+	}
 }
 
 module.exports = TimerStorage;
