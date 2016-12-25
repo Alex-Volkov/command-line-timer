@@ -9,12 +9,16 @@ class TimerClass extends Emitter {
 		this.currentTime = 0;
 		this.stdin = process.stdin;
 		this.stdin.setRawMode(true);
+		this.restTime = params.restTime || '5m';
+		this.restPhase = params.restPhase || false;
 		this.stdin.resume();
 		this.stdin.setEncoding('utf8');
-		this.timerValue = params.time || '1m';
+		this.timerValue = params.time || '25m';
+		if(!!this.restPhase) this.timerValue = String(this.restTime);
 		if(params.task){
 			this.task = params.task;
 		}
+		debug(this.restTime);
 		this.maxValue = this.timerValue.indexOf('m') > -1 ? parseInt(this.timerValue) * 60 : parseInt(this.timerValue);
 		this.st = process.stderr;
 		this.textColour = '\x1b[31m';
@@ -40,14 +44,19 @@ class TimerClass extends Emitter {
 				if (this.currentTime >= this.maxValue) {
 
 					clearInterval(this.interval);
-					let audio = player.play(`${__dirname}/bell.wav`, () => {
+					let audioPath = this.restPhase ? `${__dirname}/rest-bell.wav` : `${__dirname}/bell.wav`;
+					let audio = player.play(audioPath, () => {
 						this.setDefaultColors();
-						this.emit('timerCompleted',{
-							type: 'timerCompleted',
-							finishTime: Date.now(),
-							duration: this.maxValue,
-							task: this.task
-						});
+						if(this.restPhase){
+							this.emit('restPhaseCompleted')
+						}else{
+							this.emit('timerCompleted',{
+								type: 'timerCompleted',
+								finishTime: Date.now(),
+								duration: this.maxValue,
+								task: this.task
+							});
+						}
 						audio.kill();
 						// process.exit();
 					});

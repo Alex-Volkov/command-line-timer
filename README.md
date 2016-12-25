@@ -1,10 +1,12 @@
 #Command line timer
  
- Small console app which runs a timer and sounds a bell in the end
+ Small console app which runs a timer and sounds a gong sound in the end of the session and a `different` gong sound at the end of the rest phase 
+ 
+ By default timer runs for 25m with 5m rest phase
  
  It can be installed globally with `npm install -g bell-timer` 
  
- ```timer``` runs timer for a one minute 
+ ```timer``` runs timer for a 25 minutes 
  
  ```timer 10m``` runs timer for ten minutes 
  
