@@ -1,6 +1,6 @@
 {
   "name": "bell-timer",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Command line pomodoro like timer with bell sound",
   "main": "timer.js",
   "repository": {
