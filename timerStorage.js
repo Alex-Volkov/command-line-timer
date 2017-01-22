@@ -74,6 +74,15 @@ class TimerStorage extends EventEmitter {
 	getTaskTypes(){
 		return this.db.all('select distinct task from sessions where task not in("null", "undefined");')
 	}
+
+	/**
+	 * shows stats grouped by task 
+	 * @returns {*|Promise<any[]>|Promise.<*>}
+	 */
+	getTasksStats(){
+		return this.db.all('select task, sum(duration) as duration from sessions group by task;')
+	}
+
 	getSessionsByTaskTotal(task) {
 		debug(task);
 		return this.db.get(`select sum(duration) as totalDuration from sessions where task='${task}'`)

@@ -16,7 +16,13 @@
  
  ```timer --get-tasks``` will show list of tasks from DB like this
   ```[ 'test', 'test task', 'another task' ]```
- 
+ ```timer --get-stats``` will show stats grouped by task
+ ```
+    first task  --->  03:00
+    another task  --->  11:50
+    one more  --->  03:15
+```
+
  ```timer --remove-task 'test task'``` removes all the data from DB with a `task` named `test task` 
   
  When timer is running it can be paused and unpaused with a `spacebar`

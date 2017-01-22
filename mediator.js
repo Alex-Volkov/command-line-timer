@@ -29,7 +29,15 @@ class Mediator {
 			this.db.getTaskTypes()
 				.then((data) => console.log(data.map(elem => elem.task)))
 		});
-
+		
+		this.input.on('showStats', () => {
+			this.db.getTasksStats()
+				.then((data) => data.forEach(elem => 
+				{
+					console.log(`${elem.task}  --->  ${moment(moment.duration(elem.duration, 'seconds')._data).format('HH:mm')}`)
+				}
+				))
+		});
 		this.input.on('runTask', (data) => {
 			this.timer = new TimerClass(data);
 			this.timerHandlers();

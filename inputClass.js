@@ -17,6 +17,12 @@ class InputProcess extends Events{
 			return this.emit('showTasks')
 		}
 		/**
+		 * we want to get stats
+		 */
+		if(inputArr.indexOf('--get-stats') > -1){
+			return this.emit('showStats')
+		}
+		/**
 		 * task param specified
 		 */
 		if(inputArr.indexOf('--task') > -1){
