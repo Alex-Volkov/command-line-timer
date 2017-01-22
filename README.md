@@ -15,7 +15,9 @@
  ```timer 10m --task 'my task'``` will run timer for 10 min and add stat to DB for with value `my task` for `task` field
  
  ```timer --get-tasks``` will show list of tasks from DB like this
+ 
   ```[ 'test', 'test task', 'another task' ]```
+ 
  ```timer --get-stats``` will show stats grouped by task
  ```
     first task  --->  03:00
