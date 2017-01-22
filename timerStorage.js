@@ -32,8 +32,10 @@ class TimerStorage extends EventEmitter {
 	_getDateFromTs(timestamp) {
 		let ts = new Date(timestamp);
 		let month = ts.getMonth() + 1;
+		let day = ts.getDate();
 		if (month < 10) month = '0' + month;
-		return String(`${ts.getFullYear()}-${month}-${ts.getDate()}`);
+		if (day < 10) day = '0' + day;
+		return String(`${ts.getFullYear()}-${month}-${day}`);
 	}
 
 	/**
