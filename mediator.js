@@ -29,13 +29,12 @@ class Mediator {
 			this.db.getTaskTypes()
 				.then((data) => console.log(data.map(elem => elem.task)))
 		});
-		
+
 		this.input.on('showStats', () => {
 			this.db.getTasksStats()
-				.then((data) => data.forEach(elem => 
-				{
-					console.log(`${elem.task}  --->  ${moment(moment.duration(elem.duration, 'seconds')._data).format('HH:mm')}`)
-				}
+				.then((data) => data.forEach(elem => {
+						console.log(`${elem.task}  --->  ${moment(moment.duration(elem.duration, 'seconds')._data).format('HH:mm')}`)
+					}
 				))
 		});
 		this.input.on('runTask', (data) => {
@@ -66,16 +65,16 @@ class Mediator {
 								this.db.getSessionsByTaskTotal(evt.task)
 									.then((taskDuration) => {
 										console.log('-----------------');
-										console.log(`Total time for task *${evt.task}*: ${moment(moment.duration(taskDuration.totalDuration, 'seconds')._data).format('HH:mm')}`);
+										console.log(`Total time for task *${evt.task}*:${moment(moment.duration(taskDuration.totalDuration, 'seconds')._data).format('HH:mm')}`);
 										console.log('-----------------');
-										console.log(`Total time spent today: ${moment(moment.duration(data.totalDuration, 'seconds')._data).format('HH:mm')}`);
+										console.log(`Total time spent today:${moment(moment.duration(data.totalDuration, 'seconds')._data).format('HH:mm')}`);
 										console.log('-----------------');
 
 										this.pauseHandler();
 										this.timer.removeListener('timerCompleted', timerCompleteListener);
 									})
 							} else {
-								console.log(`Total time spent today: ${moment(moment.duration(data.totalDuration, 'seconds')._data).format('HH:mm')}`);
+								console.log(`Total time spent today:${moment(moment.duration(data.totalDuration, 'seconds')._data).format('HH:mm')}`);
 								this.timer.removeListener('timerCompleted', timerCompleteListener);
 								this.pauseHandler.call(this);
 							}
@@ -84,15 +83,20 @@ class Mediator {
 				})
 		};
 		this.timer.on('timerCompleted', timerCompleteListener);
-		this.timer.on('timerTerminated', (evt) => debug(evt));
+		this.timer.on('timerTerminated', (evt) => {
+			this.timer.removeAllListeners();
+			debug(evt)
+		});
 	}
 
 	pauseHandler() {
 		let restPhaseCompletedListener = () => {
 			console.log('rest phases completed');
 			console.log('-----------------');
+			this.timer.removeAllListeners();
 			process.exit();
 		};
+		this.timer.removeAllListeners();
 		this.timer = new TimerClass({restPhase: true});
 		this.timer.on('restPhaseCompleted', restPhaseCompletedListener);
 	}
