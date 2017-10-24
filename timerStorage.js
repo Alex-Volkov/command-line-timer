@@ -6,9 +6,10 @@ const fs = require('fs');
 class TimerStorage extends EventEmitter {
 	constructor(dbFile) {
 		super();
-		let homeFolder = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/timer/';
-		this.dbFile = homeFolder + (dbFile || 'timer.sqlite');
+		this.homeFolder = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/timer/';
+		this.dbFile = this.homeFolder + (dbFile || 'timer.sqlite');
 		this.db = db;
+		this._checkFile()
 		this.db.open(this.dbFile)
 			.then(
 				() => {
@@ -20,10 +21,16 @@ class TimerStorage extends EventEmitter {
 					)
 						.then(() => this.emit('initDone'))
 				},
-				(err) => debug(err)
+				(err) => console.log(err)
 			)
 	}
-
+	_checkFile(){
+		if(!fs.existsSync(this.homeFolder)) fs.mkdirSync(this.homeFolder);
+		if(!fs.existsSync(this.dbFile)){
+			debug('writing new file', this.dbFile)
+			fs.writeFileSync(this.dbFile, '')
+		}
+	}
 	/**
 	 * returns data YYYY-MM-DD from timestamp
 	 * @param timestamp
